@@ -21,10 +21,10 @@ class conv_step(nn.Module):
         
     def forward(self,x):
         x = self.conv_1(x)
-        x = self.bn(x)
+        # x = self.bn(x)
         x = self.relu(x)
         x = self.conv_2(x)
-        x = self.bn(x)
+        # x = self.bn(x)
         x = self.relu(x)
         return x
 
@@ -38,7 +38,7 @@ class up_conv(nn.Module):
     def forward(self, x):
         x = self.upsample(x)
         x = self.conv(x)
-        x = self.bn(x)
+        # x = self.bn(x)
         return x
     
 class UNET_1D(nn.Module):
@@ -68,7 +68,7 @@ class UNET_1D(nn.Module):
         
     def forward(self,x):
         
-        x = self.bn(x)
+        #x = self.bn(x)
 
         
         """ Contracting """

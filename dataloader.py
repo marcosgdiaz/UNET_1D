@@ -39,13 +39,12 @@ class SyntheticData(Dataset):
             
         csv_name = self.csv_files[idx]
         data = read_csv(path.join(self.root_dir, csv_name),  header = None)
-        time = data.iloc[:,0].values
-        sequence = data.iloc[:,1:5].values.transpose()
+        sequence = data.iloc[:,1:5].values.transpose() * 1e+4
         labels = data.iloc[:,5].values
         s = int(sequence.shape[1] * self.split)
         
-        training_sample = {'time' : time[:s], 'sequence' : sequence[:,:s], 'labels' : labels[:s]}
-        validation_sample = {'time' : time[s:], 'sequence' : sequence[:,s:], 'labels' : labels[s:]}
+        training_sample = {'sequence' : sequence[:,:s], 'labels' : labels[:s]}
+        validation_sample = {'sequence' : sequence[:,s:], 'labels' : labels[s:]}
         
         return {'training' : training_sample, 'validation' : validation_sample}
     
