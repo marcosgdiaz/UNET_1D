@@ -18,6 +18,7 @@ from datetime import datetime
 import json
 import os
 
+
 time = datetime.now()
 time = time.strftime("%y%m%d%H%M")
 dataset = SyntheticData('./data', 0.7)
@@ -29,7 +30,7 @@ depth_step = 16
 lr = 0.00007
 num_epochs = 100
 mini_batch = 512
-weight = [1., 2.]
+weight = [1., 1.4]
 
 os.mkdir(f'./logs/{time}')
 config = {'kernel_size' : kernel_size, 'depth_step' : depth_step, 'batch_size' : batch_size, 'mini_batch' : mini_batch, 'Optimizer' : 'Adam' , 'lr' : lr, 'weight' : weight }

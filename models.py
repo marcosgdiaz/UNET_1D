@@ -10,7 +10,7 @@ import torch
 
 
 class conv_step(nn.Module):
-    def __init__(self, input_dim, num_features, kernel_size):
+    def __init__(self, input_dim, num_features, kernel_size,p):
         super(conv_step, self).__init__()
         
         padding = int((kernel_size - 1) / 2)
@@ -19,12 +19,14 @@ class conv_step(nn.Module):
         self.conv_2 = nn.Conv1d(num_features,num_features, kernel_size, padding=padding)
         self.relu = nn.ReLU()
         
+        self.dropout = nn.Dropout(p)
+        
     def forward(self,x):
         x = self.conv_1(x)
-        # x = self.bn(x)
+        x = self.dropout(x)
         x = self.relu(x)
         x = self.conv_2(x)
-        # x = self.bn(x)
+        x = self.dropout(x)
         x = self.relu(x)
         return x
 
@@ -42,13 +44,13 @@ class up_conv(nn.Module):
         return x
     
 class UNET_1D(nn.Module):
-    def __init__(self ,input_dim,num_features,kernel_size):
+    def __init__(self ,input_dim,num_features,kernel_size,p):
         super(UNET_1D, self).__init__()
         
-        self.down_layer_1 = conv_step(input_dim, num_features, kernel_size)
-        self.down_layer_2 = conv_step(num_features, num_features*2, kernel_size)
-        self.down_layer_3 = conv_step(num_features*2, num_features*4, kernel_size)
-        self.down_layer_4 = conv_step(num_features*4, num_features*8, kernel_size)
+        self.down_layer_1 = conv_step(input_dim, num_features, kernel_size,p)
+        self.down_layer_2 = conv_step(num_features, num_features*2, kernel_size,p)
+        self.down_layer_3 = conv_step(num_features*2, num_features*4, kernel_size,p)
+        self.down_layer_4 = conv_step(num_features*4, num_features*8, kernel_size,p)
         
         self.up_conv_1 = up_conv(num_features*8)
         self.up_conv_2 = up_conv(num_features*4)
