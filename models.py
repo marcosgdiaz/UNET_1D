@@ -56,9 +56,9 @@ class UNET_1D(nn.Module):
         self.up_conv_2 = up_conv(num_features*4)
         self.up_conv_3 = up_conv(num_features*2)
         
-        self.up_layer_1 = conv_step(num_features*8, num_features*4,kernel_size)
-        self.up_layer_2 = conv_step(num_features*4, num_features*2,kernel_size)
-        self.up_layer_3 = conv_step(num_features*2, num_features, kernel_size)
+        self.up_layer_1 = conv_step(num_features*8, num_features*4,kernel_size,p)
+        self.up_layer_2 = conv_step(num_features*4, num_features*2,kernel_size,p)
+        self.up_layer_3 = conv_step(num_features*2, num_features, kernel_size,p)
         
         self.maxpool = nn.MaxPool1d(2,2,padding=0)
         self.softmax = nn.LogSoftmax(dim = 1)
