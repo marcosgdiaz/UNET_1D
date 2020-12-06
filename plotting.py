@@ -5,7 +5,7 @@ import numpy as np
 
 #%% plot test results
 plt.close('all')
-root = 'logs/2012012257'
+root = 'logs/2012052314'
 
 with open(root + '/test_result.json' , 'r') as file:
     test_results = json.load(file)
@@ -20,6 +20,7 @@ TP = np.array(test_results['TP'])
 TC = np.array(test_results['TC'])
 FP = np.array(test_results['FP'])
 PNR = np.array(test_results['PNR'])
+sort = np.argsort(PNR)
 Counts = np.array(test_results['Counts'])
 
 TP_low = np.array(low_per['TP'])
@@ -32,12 +33,12 @@ TC_high = np.array(high_per['TC'])
 FP_high = np.array(high_per['FP'])
 PNR_high = np.array(high_per['PNR'])
 
-idx = Counts < 300
+idx = Counts[sort] < 300
 plt.figure()
-plt.plot(PNR[idx] , TP[idx] / TC[idx] , label = 'True positives rate') 
-plt.plot(PNR[idx] , FP[idx] / TC[idx], label = 'False positives rate')
-plt.plot(PNR_low, TP_low / TC_low, '--r', label = 'Current method')
-plt.plot(PNR_low, FP_low / TC_low, '--r', label = 'Current method')
+plt.plot(PNR[sort][idx] , TP[sort][idx] / TC[sort][idx] , label = 'True positives rate') 
+plt.plot(PNR[sort][idx] , FP[sort][idx] / TC[sort][idx], label = 'False positives rate')
+plt.plot(PNR_low, TP_low / TC_low, '--b', label = 'Current method')
+plt.plot(PNR_low, FP_low / TC_low, '--', color = 'red', label = 'Current method')
 plt.grid('on')
 plt.xlabel('PNR')
 plt.title('Less than 300 counts')
@@ -46,10 +47,10 @@ plt.legend()
 
 idx = np.invert(idx)
 plt.figure()
-plt.plot(PNR[idx] , TP[idx] / TC[idx], label = 'True positives rate')
-plt.plot(PNR[idx] , FP[idx] / TC[idx], label = 'False positive rate')
-plt.plot(PNR_high, TP_high / TC_high, '--r', label = 'Current method')
-plt.plot(PNR_high, FP_high / TC_high, '--r', label = 'Current method')
+plt.plot(PNR[sort][idx] , TP[sort][idx] / TC[sort][idx], label = 'True positives rate')
+plt.plot(PNR[sort][idx] , FP[sort][idx] / TC[sort][idx], label = 'False positive rate')
+plt.plot(PNR_high, TP_high / TC_high, '--b', label = 'Current method')
+plt.plot(PNR_high, FP_high / TC_high, '--', color = 'red', label = 'Current method')
 plt.grid('on')
 plt.xlabel('PNR')
 plt.legend()
