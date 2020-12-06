@@ -23,6 +23,7 @@ time = datetime.now()
 time = time.strftime("%y%m%d%H%M")
 dataset = SyntheticData('./data', 0.7)
 
+dropout = 0.25
 batch_size = 1
 input_channels = 4
 kernel_size = 3
@@ -33,13 +34,13 @@ mini_batch = 512
 weight = [1., 1.4]
 
 os.mkdir(f'./logs/{time}')
-config = {'kernel_size' : kernel_size, 'depth_step' : depth_step, 'batch_size' : batch_size, 'mini_batch' : mini_batch, 'Optimizer' : 'Adam' , 'lr' : lr, 'weight' : weight }
+config = {'kernel_size' : kernel_size, 'depth_step' : depth_step, 'batch_size' : batch_size, 'mini_batch' : mini_batch, 'Optimizer' : 'Adam' , 'lr' : lr, 'weight' : weight, 'dropout' : dropout}
 with open(f'logs/{time}/config.json', 'w') as outfile:
     json.dump(config, outfile)
 
 dataloader = DataLoader(dataset, batch_size = batch_size)
 
-net = models.UNET_1D(input_channels,depth_step,kernel_size)
+net = models.UNET_1D(input_channels,depth_step,kernel_size, dropout)
 
 writer = SummaryWriter(log_dir = f'./logs/{time}')
 
