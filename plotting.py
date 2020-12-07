@@ -3,9 +3,14 @@ import matplotlib.pyplot as plt
 import json
 import numpy as np
 
+font = {'family' : 'serif',
+        'weight' : 'normal',
+        'size'   : 16}
+
+plt.rc('font', **font)
 #%% plot test results
 plt.close('all')
-root = 'logs/2012052314'
+root = 'logs/2012012257'
 
 with open(root + '/test_result.json' , 'r') as file:
     test_results = json.load(file)
@@ -35,24 +40,24 @@ PNR_high = np.array(high_per['PNR'])
 
 idx = Counts[sort] < 300
 plt.figure()
-plt.plot(PNR[sort][idx] , TP[sort][idx] / TC[sort][idx] , label = 'True positives rate') 
-plt.plot(PNR[sort][idx] , FP[sort][idx] / TC[sort][idx], label = 'False positives rate')
-plt.plot(PNR_low, TP_low / TC_low, '--b', label = 'Current method')
-plt.plot(PNR_low, FP_low / TC_low, '--', color = 'red', label = 'Current method')
+plt.plot(PNR[sort][idx] , TP[sort][idx] / TC[sort][idx] , label = 'TPR') 
+plt.plot(PNR[sort][idx] , FP[sort][idx] / TC[sort][idx], label = 'FDR')
+plt.plot(PNR_low, TP_low / TC_low, '--b', label = 'TPR benchmark')
+plt.plot(PNR_low, FP_low / TC_low, '--', color = 'red', label = 'FDR benchmark')
 plt.grid('on')
-plt.xlabel('PNR')
+plt.xlabel('Peak to Noise Ratio')
 plt.title('Less than 300 counts')
 plt.legend()
 
 
 idx = np.invert(idx)
 plt.figure()
-plt.plot(PNR[sort][idx] , TP[sort][idx] / TC[sort][idx], label = 'True positives rate')
-plt.plot(PNR[sort][idx] , FP[sort][idx] / TC[sort][idx], label = 'False positive rate')
-plt.plot(PNR_high, TP_high / TC_high, '--b', label = 'Current method')
-plt.plot(PNR_high, FP_high / TC_high, '--', color = 'red', label = 'Current method')
+plt.plot(PNR[sort][idx] , TP[sort][idx] / TC[sort][idx], label = 'TPR')
+plt.plot(PNR[sort][idx] , FP[sort][idx] / TC[sort][idx], label = 'FDR')
+plt.plot(PNR_high, TP_high / TC_high, '--b', label = 'TPR benchmark')
+plt.plot(PNR_high, FP_high / TC_high, '--', color = 'red', label = 'FDR benchmark')
 plt.grid('on')
-plt.xlabel('PNR')
+plt.xlabel('Peak to Noise Ratio')
 plt.legend()
 plt.title('More than 1000 counts')
 
