@@ -13,8 +13,7 @@ from sklearn.metrics import f1_score,precision_score, recall_score
 import json
 from os.path import dirname
 
-#net = torch.load('./trained_models/best_model_weight_3.pt')
-path = 'logs/2012012257/best_performance.pt'
+path = 'logs/2012062341/best_performance.pt'
 root = dirname(path)
 net = torch.load(path)
 net.eval()
